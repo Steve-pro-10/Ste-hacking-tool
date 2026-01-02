@@ -25,13 +25,30 @@ class Attack():
         command = f"ping {parameter} {self.num_ping} {self.target}"
         try:
             
-            out = subprocess.run(command,stdout=subprocess.PIPE,stderr=subprocess.PIPE,shell=True)
-                
-                # Stampa l'output completo del comando ping
-            if out.stdout:
-                print(out.stdout.decode('utf-8', errors='ignore'))  # invece di print(out.stdout)
-            if out.stderr:
-                print(out.stderr.decode('utf-8', errors='ignore'))
+  
+            # Usiamo Popen per esecuzione in tempo reale
+            process = subprocess.Popen(
+                [command],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,   
+                shell=True,           # Output come stringhe, non bytes
+                bufsize=1,              # Line buffered
+                universal_newlines=True
+            )
+
+            # Leggiamo e stampiamo stdout in tempo reale
+            for line in process.stdout:
+                print(line, end='')  # end='' perché la riga ha già \n
+
+            # Leggiamo eventuali errori (anche questi in tempo reale)
+            for line in process.stderr:
+                print(line, end='')
+
+            # Aspettiamo che il processo termini per ottenere il codice di ritorno
+            process.wait()
+
+
 
                 
         except subprocess.TimeoutExpired:print("⏰ Timeout: il ping ha impiegato troppo tempo.")

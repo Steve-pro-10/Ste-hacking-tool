@@ -7,6 +7,7 @@ art = r"""
 
 cm_list = """
 DoS attack [1]
+
 """
 class Tool():
     def __init__(self):
